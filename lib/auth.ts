@@ -130,15 +130,15 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             if (session.user) {
-                // @ts-ignore
-                session.user.id = token.id as string;
-
                 // Fetch fresh subscription details for the session
                 // This ensures if subscription changes, session reflects it on refresh
                 try {
                     await connectDB();
-                    const dbUser = await User.findById(token.id).select('subscriptionStatus subscriptionPlan trialEndsAt');
+                    // Find by email instead of ID to avoid ObjectId cast errors with Google IDs
+                    const dbUser = await User.findOne({ email: session.user.email }).select('_id subscriptionStatus subscriptionPlan trialEndsAt');
                     if (dbUser) {
+                        // @ts-ignore
+                        session.user.id = dbUser._id.toString();
                         // @ts-ignore
                         session.user.subscriptionStatus = dbUser.subscriptionStatus;
                         // @ts-ignore
