@@ -328,7 +328,17 @@ export default function ProfilePage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="username" className="text-slate-600 font-semibold">Username</Label>
                                         <Input id="username" value={profile.username} onChange={handleProfileChange} className="bg-white border-slate-200 text-slate-900 focus:ring-emerald-500" />
-                                        <p className="text-blue-500 text-xs hover:underline cursor-pointer">mon-portfolio.vercel.app/portfolio/{profile.username.toLowerCase()}</p>
+                                        <a
+                                            href={`/portfolio/${profile.username.toLowerCase()}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-500 text-xs hover:underline cursor-pointer inline-flex items-center gap-1"
+                                        >
+                                            mon-portfolio.vercel.app/portfolio/{profile.username.toLowerCase()}
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="country" className="text-slate-600 font-semibold">Country</Label>
