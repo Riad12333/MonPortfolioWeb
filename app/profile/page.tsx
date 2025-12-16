@@ -328,7 +328,7 @@ export default function ProfilePage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="username" className="text-slate-600 font-semibold">Username</Label>
                                         <Input id="username" value={profile.username} onChange={handleProfileChange} className="bg-white border-slate-200 text-slate-900 focus:ring-emerald-500" />
-                                        <p className="text-blue-500 text-xs hover:underline cursor-pointer">{profile.username.toLowerCase()}.monportfolioweb.com</p>
+                                        <p className="text-blue-500 text-xs hover:underline cursor-pointer">mon-portfolio.vercel.app/portfolio/{profile.username.toLowerCase()}</p>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="country" className="text-slate-600 font-semibold">Country</Label>
