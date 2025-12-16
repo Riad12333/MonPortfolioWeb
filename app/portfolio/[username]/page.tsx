@@ -28,13 +28,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PortfolioPage({ params }: Props) {
     const { username } = params;
 
+    console.log('[Portfolio] Fetching portfolio for username:', username);
+
     // Connect to DB
     await connectDB();
+    console.log('[Portfolio] MongoDB connected');
 
     // Fetch User with all public fields
     const user = await User.findOne({ username }).lean();
+    console.log('[Portfolio] User found:', user ? 'YES' : 'NO', user ? `(${user.fullName})` : '');
 
     if (!user) {
+        console.log('[Portfolio] User not found, returning 404');
         return notFound();
     }
 
