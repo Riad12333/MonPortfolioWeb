@@ -27,8 +27,9 @@ const handlePublish = async () => {
     setTimeout(() => {
         // In a real app, we check if subdomain is available via API
         // For now, we assume success using the input or default username
-        const finalSubdomain = subdomain || "madjid"; // Default for demo
-        const finalUrl = `${window.location.protocol}//${finalSubdomain}.${window.location.host.includes('localhost') ? 'localhost:3000' : 'monportfolioweb.com'}`;
+        // FREE VERSION (Path-based)
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        const finalUrl = `${origin}/portfolio/${finalSubdomain}`;
 
         setPortfolioUrl(finalUrl);
         setPublishStatus('published');
@@ -62,13 +63,16 @@ return (
                                 Your Public Portfolio
                             </CardTitle>
                             <CardDescription className="text-slate-400">
-                                Your portfolio is instantly accessible via your custom subdomain.
+                                Your portfolio is instantly accessible via your unique link.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="subdomain" className="text-slate-300">Choose your subdomain</Label>
-                                <div className="flex gap-2">
+                                <Label htmlFor="subdomain" className="text-slate-300">Choose your username</Label>
+                                <div className="flex gap-2 items-center">
+                                    <div className="text-slate-500 text-sm hidden md:block">
+                                        mon-portfolio.vercel.app/portfolio/
+                                    </div>
                                     <div className="relative flex-1">
                                         <Input
                                             id="subdomain"
@@ -77,9 +81,6 @@ return (
                                             placeholder="username"
                                             className="bg-slate-950 border-slate-800 text-white pl-4"
                                         />
-                                    </div>
-                                    <div className="flex items-center px-4 bg-slate-800 border border-slate-700 rounded-md text-slate-400 text-sm whitespace-nowrap">
-                                        .monportfolioweb.com
                                     </div>
                                 </div>
                                 <p className="text-xs text-slate-500">Only letters, numbers, and hyphens.</p>
