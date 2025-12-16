@@ -81,6 +81,17 @@ export const authOptions: NextAuthOptions = {
                     return true;
                 } else {
                     // Create new Google User
+                    // Generate username from email
+                    let baseUsername = user.email!.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+                    let username = baseUsername;
+
+                    // Ensure username is unique
+                    let counter = 1;
+                    while (await User.findOne({ username })) {
+                        username = `${baseUsername}${counter}`;
+                        counter++;
+                    }
+
                     // Default Trial logic
                     const trialDefaults = {
                         trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -93,6 +104,8 @@ export const authOptions: NextAuthOptions = {
                     const newUser = await User.create({
                         email: user.email,
                         name: user.name,
+                        username,
+                        fullName: user.name,
                         image: user.image,
                         authProvider: 'google',
                         googleId: account.providerAccountId,

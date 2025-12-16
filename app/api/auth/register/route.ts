@@ -25,6 +25,18 @@ export async function POST(req: NextRequest) {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Generate username from email (before @)
+        // e.g. "john.doe@example.com" -> "johndoe"
+        let baseUsername = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        let username = baseUsername;
+
+        // Ensure username is unique by appending numbers if needed
+        let counter = 1;
+        while (await User.findOne({ username })) {
+            username = `${baseUsername}${counter}`;
+            counter++;
+        }
+
         // Calculate trial end date (7 days from now)
         const trialDefaults = {
             trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -36,6 +48,8 @@ export async function POST(req: NextRequest) {
         const newUser = await User.create({
             name,
             email,
+            username,
+            fullName: name, // Also set fullName for the profile
             passwordHash: hashedPassword,
             authProvider: 'email',
             ...trialDefaults
