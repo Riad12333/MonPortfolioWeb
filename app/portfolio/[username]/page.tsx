@@ -6,6 +6,7 @@ import { Metadata } from "next";
 
 // Force no caching for fresh data on reload
 export const dynamic = "force-dynamic";
+export const revalidate = 0; // Revalidate on every request
 
 interface Props {
     params: { username: string };
