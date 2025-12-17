@@ -14,8 +14,9 @@ interface Props {
 
 // Generate Metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { username } = await params;
     await connectDB();
-    const user = await User.findOne({ username: params.username }).select("fullName specialization about").lean();
+    const user = await User.findOne({ username }).select("fullName specialization about").lean();
 
     if (!user) return { title: "Portfolio Not Found" };
 
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // The Portfolio Page Component
 export default async function PortfolioPage({ params }: Props) {
-    const { username } = params;
+    // In Next.js 16, params is a Promise that needs to be awaited
+    const { username } = await params;
 
     console.log('[Portfolio] ========== START ==========');
     console.log('[Portfolio] Fetching portfolio for username:', username);
