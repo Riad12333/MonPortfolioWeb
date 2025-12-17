@@ -28,20 +28,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PortfolioPage({ params }: Props) {
     const { username } = params;
 
+    console.log('[Portfolio] ========== START ==========');
     console.log('[Portfolio] Fetching portfolio for username:', username);
+    console.log('[Portfolio] MONGODB_URI exists:', !!process.env.MONGODB_URI);
+    console.log('[Portfolio] MONGODB_URI starts with:', process.env.MONGODB_URI?.substring(0, 20));
 
     // Connect to DB
-    await connectDB();
-    console.log('[Portfolio] MongoDB connected');
+    try {
+        await connectDB();
+        console.log('[Portfolio] ✅ MongoDB connected successfully');
+    } catch (error) {
+        console.error('[Portfolio] ❌ MongoDB connection failed:', error);
+        throw error;
+    }
 
     // Fetch User with all public fields
-    const user = await User.findOne({ username }).lean();
-    console.log('[Portfolio] User found:', user ? 'YES' : 'NO', user ? `(${user.fullName})` : '');
+    let user;
+    try {
+        user = await User.findOne({ username }).lean();
+        console.log('[Portfolio] User search completed');
+        console.log('[Portfolio] User found:', user ? 'YES' : 'NO');
+        if (user) {
+            console.log('[Portfolio] User details:', {
+                fullName: user.fullName,
+                specialization: user.specialization,
+                email: user.email
+            });
+        }
+    } catch (error) {
+        console.error('[Portfolio] ❌ User search failed:', error);
+        throw error;
+    }
 
     if (!user) {
         console.log('[Portfolio] User not found, returning 404');
+        console.log('[Portfolio] ========== END (404) ==========');
         return notFound();
     }
+
+    console.log('[Portfolio] ========== END (SUCCESS) ==========');
 
     // -- RENDER THE PORTFOLIO -- 
     // Ideally this would be a reusable component <PortfolioView data={user} />
