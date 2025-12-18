@@ -1,156 +1,12 @@
 import { Document, Page, Text, View, StyleSheet, Image, Font, renderToStream } from '@react-pdf/renderer'
-
-// Define styles (Dark Theme DGT match)
-// Register a font if we want custom fonts, but using standard Helvetica/Times for now to be safe/fast
-const styles = StyleSheet.create({
-    page: {
-        backgroundColor: '#0f172a', // slate-950
-        color: '#e2e8f0', // slate-200
-        padding: 40,
-        display: 'flex',
-        flexDirection: 'row',
-        fontFamily: 'Helvetica',
-    },
-    header: {
-        width: '40%',
-        paddingRight: 20,
-        borderRightWidth: 1,
-        borderRightColor: '#475569', // slate-600
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    // Left Sidebar Elements
-    profileImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginBottom: 20,
-        alignSelf: 'center',
-        objectFit: 'cover',
-        backgroundColor: '#cbd5e1'
-    },
-    name: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#f8fafc', // slate-50
-    },
-    title: {
-        fontSize: 16,
-        color: '#06b6d4', // cyan-500
-        marginBottom: 12,
-        fontWeight: 'medium',
-    },
-    contactSection: {
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    contactItem: {
-        fontSize: 10,
-        marginBottom: 6,
-        color: '#94a3b8', // slate-400
-    },
-
-    // Sidebar Section
-    sidebar: {
-        marginTop: 20,
-    },
-    sectionTitleSidebar: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 12,
-        color: '#3b82f6', // blue-500
-    },
-    skillItem: {
-        fontSize: 11,
-        marginBottom: 4,
-        color: '#cbd5e1',
-    },
-
-    // Main Content
-    main: {
-        width: '60%',
-        marginLeft: 20, // Adjusted for spacing
-        paddingLeft: 20, // Add padding if needed, or rely on margin
-    },
-    section: {
-        marginBottom: 24,
-    },
-    sectionTitleMain: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 12,
-        color: '#3b82f6', // blue-500
-        textTransform: 'uppercase',
-        letterSpacing: 1,
-    },
-
-    // Experience
-    expItem: {
-        marginBottom: 16,
-    },
-    expTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#f1f5f9',
-    },
-    expCompany: {
-        fontSize: 12,
-        color: '#38bdf8', // sky-400
-        marginBottom: 4,
-        fontStyle: 'italic',
-    },
-    expDesc: {
-        fontSize: 10,
-        lineHeight: 1.5,
-        color: '#cbd5e1',
-    },
-
-    // Projects
-    projectItem: {
-        marginBottom: 12,
-        backgroundColor: '#1e293b',
-        padding: 10,
-        borderRadius: 6,
-    },
-    projectName: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        color: '#f472b6',
-        marginBottom: 2,
-    },
-    projectUrl: {
-        fontSize: 9,
-        color: '#38bdf8',
-        marginBottom: 4,
-    },
-
-    // Education
-    eduItem: {
-        marginBottom: 10,
-    },
-    eduSchool: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        color: '#cbd5e1',
-    },
-    eduDegree: {
-        fontSize: 10,
-        fontStyle: 'italic',
-        color: '#a78bfa',
-    },
-});
-
-// Helper to resolve image path
 import path from 'path';
 import fs from 'fs';
 
+// Helper to resolve image path
 const getProfileImage = (imagePath: string) => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
 
-    // If local path starting with /, resolve to file system
     if (imagePath.startsWith('/')) {
         const localPath = path.join(process.cwd(), 'public', imagePath);
         if (fs.existsSync(localPath)) {
@@ -165,87 +21,270 @@ const getProfileImage = (imagePath: string) => {
     return null;
 }
 
+// Define styles to match the provided screenshot
+const styles = StyleSheet.create({
+    page: {
+        padding: 50,
+        backgroundColor: '#ffffff',
+        fontFamily: 'Helvetica',
+        color: '#1a1a1a',
+    },
+    // Header section
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: 30,
+    },
+    headerLeft: {
+        flex: 1,
+    },
+    name: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        color: '#000000',
+        marginBottom: 4,
+    },
+    specialization: {
+        fontSize: 14,
+        color: '#334155',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        marginBottom: 12,
+        letterSpacing: 1,
+    },
+    contactRow: {
+        flexDirection: 'row',
+        gap: 12,
+        fontSize: 9,
+        color: '#64748b',
+    },
+    profileImage: {
+        width: 90,
+        height: 90,
+        borderRadius: 45,
+        backgroundColor: '#f1f5f9',
+        borderWidth: 1,
+        borderColor: '#e2e8f0',
+    },
+    imagePlaceholder: {
+        width: 90,
+        height: 90,
+        borderRadius: 45,
+        backgroundColor: '#f1f5f9',
+        borderWidth: 1,
+        borderColor: '#e2e8f0',
+    },
+
+    // Horizontal Line
+    separator: {
+        height: 1,
+        backgroundColor: '#e2e8f0',
+        width: '100%',
+        marginBottom: 25,
+    },
+
+    // Section styling
+    section: {
+        marginBottom: 25,
+    },
+    sectionTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    sectionTitleBar: {
+        width: 4,
+        height: 18,
+        backgroundColor: '#000000',
+        marginRight: 8,
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        color: '#000000',
+        letterSpacing: 1,
+    },
+
+    // Content styles
+    summaryText: {
+        fontSize: 10,
+        color: '#475569',
+        lineHeight: 1.6,
+    },
+
+    // Skills Badge layout
+    skillsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 6,
+    },
+    skillBadge: {
+        backgroundColor: '#f1f5f9',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 4,
+    },
+    skillText: {
+        fontSize: 9,
+        color: '#475569',
+        fontWeight: 'bold',
+    },
+
+    // Lists
+    listItem: {
+        marginBottom: 15,
+    },
+    itemHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 2,
+    },
+    itemTitle: {
+        fontSize: 11,
+        fontWeight: 'bold',
+        color: '#000000',
+    },
+    itemSubtitle: {
+        fontSize: 10,
+        color: '#64748b',
+        fontStyle: 'italic',
+        marginBottom: 4,
+    },
+    itemDesc: {
+        fontSize: 9,
+        color: '#475569',
+        lineHeight: 1.5,
+    }
+});
+
 export async function generateCV(profile: any): Promise<NodeJS.ReadableStream> {
     const profileImageSrc = getProfileImage(profile.image);
 
     const CVDocument = (
-        <Document>
+        <Document title={`CV - ${profile.fullName}`}>
             <Page size="A4" style={styles.page}>
-                {/* --- HEADER (Left Column) --- */}
+                {/* --- HEADER --- */}
                 <View style={styles.header}>
-                    {/* Image or Initials Placeholder */}
+                    <View style={styles.headerLeft}>
+                        <Text style={styles.name}>{profile.fullName}</Text>
+                        <Text style={styles.specialization}>{profile.specialization || "Developer"}</Text>
+                        <View style={styles.contactRow}>
+                            {profile.email && <Text>{profile.email}</Text>}
+                            <Text>•</Text>
+                            <Text>{profile.location || "Available Worldwide"}</Text>
+                            <Text>•</Text>
+                            <Text>{profile.username}.dgtportfolio.com</Text>
+                        </View>
+                    </View>
                     {profileImageSrc ? (
                         <Image src={profileImageSrc} style={styles.profileImage} />
-                    ) : null}
+                    ) : (
+                        <View style={styles.imagePlaceholder} />
+                    )}
+                </View>
 
-                    <Text style={styles.name}>{profile.fullName}</Text>
-                    <Text style={styles.title}>{profile.specialization || "Professional"}</Text>
+                <View style={styles.separator} />
 
-                    <View style={styles.contactSection}>
-                        {profile.email && <Text style={styles.contactItem}>{profile.email}</Text>}
-                        {profile.phone && <Text style={styles.contactItem}>{profile.phone}</Text>}
-                        {profile.portfolioUrl && <Text style={styles.contactItem}>{profile.portfolioUrl}</Text>}
-                        {profile.socials?.linkedin && <Text style={styles.contactItem}>LinkedIn: {profile.socials.linkedin}</Text>}
+                {/* --- SUMMARY --- */}
+                {profile.about && (
+                    <View style={styles.section}>
+                        <View style={styles.sectionTitleContainer}>
+                            <View style={styles.sectionTitleBar} />
+                            <Text style={styles.sectionTitle}>Professional Summary</Text>
+                        </View>
+                        <Text style={styles.summaryText}>{profile.about}</Text>
                     </View>
+                )}
 
-                    {/* SIDEBAR SKILLS */}
-                    <View style={styles.sidebar}>
-                        <Text style={styles.sectionTitleSidebar}>Skills</Text>
-                        {profile.skills?.map((skill: string, i: number) => (
-                            <Text key={i} style={styles.skillItem}>{skill}</Text>
+                {/* --- SERVICES --- */}
+                {profile.services?.length > 0 && (
+                    <View style={styles.section}>
+                        <View style={styles.sectionTitleContainer}>
+                            <View style={styles.sectionTitleBar} />
+                            <Text style={styles.sectionTitle}>Services</Text>
+                        </View>
+                        <View style={styles.skillsContainer}>
+                            {profile.services.map((service: any, i: number) => (
+                                <View key={i} style={styles.skillBadge}>
+                                    <Text style={styles.skillText}>{typeof service === 'string' ? service : service.title}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                )}
+
+                {/* --- SKILLS --- */}
+                {profile.skills?.length > 0 && (
+                    <View style={styles.section}>
+                        <View style={styles.sectionTitleContainer}>
+                            <View style={styles.sectionTitleBar} />
+                            <Text style={styles.sectionTitle}>Skills</Text>
+                        </View>
+                        <View style={styles.skillsContainer}>
+                            {profile.skills.map((skill: string, i: number) => (
+                                <View key={i} style={styles.skillBadge}>
+                                    <Text style={styles.skillText}>{skill}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                )}
+
+                {/* --- EXPERIENCE --- */}
+                {profile.experience?.length > 0 && (
+                    <View style={styles.section}>
+                        <View style={styles.sectionTitleContainer}>
+                            <View style={styles.sectionTitleBar} />
+                            <Text style={styles.sectionTitle}>Experience</Text>
+                        </View>
+                        {profile.experience.map((exp: any, i: number) => (
+                            <View key={i} style={styles.listItem}>
+                                <Text style={styles.itemTitle}>{exp.role}</Text>
+                                <Text style={styles.itemSubtitle}>{exp.company} | {exp.duration}</Text>
+                                <Text style={styles.itemDesc}>{exp.description}</Text>
+                            </View>
                         ))}
                     </View>
-                </View>
+                )}
 
-                {/* --- MAIN CONTENT (Right Column) --- */}
-                <View style={styles.main}>
-
-                    {/* EXPERIENCE */}
-                    {profile.experience?.length > 0 && (
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitleMain}>Experience</Text>
-                            {profile.experience.map((exp: any, i: number) => (
-                                <View key={i} style={styles.expItem}>
-                                    <Text style={styles.expTitle}>{exp.role}</Text>
-                                    <Text style={styles.expCompany}>{exp.company} | {exp.duration}</Text>
-                                    <Text style={styles.expDesc}>{exp.description}</Text>
-                                </View>
-                            ))}
-                        </View>
-                    )}
-
-                    {/* PROJECTS */}
-                    {profile.projects?.length > 0 && (
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitleMain}>Projects</Text>
-                            {profile.projects.map((proj: any, i: number) => (
-                                <View key={i} style={styles.projectItem}>
-                                    <Text style={styles.projectName}>{proj.title}</Text>
-                                    <Text style={styles.projectUrl}>{proj.link}</Text>
-                                    <Text style={styles.expDesc}>{proj.description}</Text>
-                                </View>
-                            ))}
-                        </View>
-                    )}
-
-                    {/* EDUCATION */}
+                {/* --- EDUCATION & CERTIFICATES --- */}
+                <View style={{ flexDirection: 'row', gap: 40 }}>
                     {profile.education?.length > 0 && (
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitleMain}>Education</Text>
+                        <View style={{ flex: 1 }}>
+                            <View style={styles.sectionTitleContainer}>
+                                <View style={styles.sectionTitleBar} />
+                                <Text style={styles.sectionTitle}>Education</Text>
+                            </View>
                             {profile.education.map((edu: any, i: number) => (
-                                <View key={i} style={styles.eduItem}>
-                                    <Text style={styles.eduSchool}>{edu.institution}</Text>
-                                    <Text style={styles.eduDegree}>{edu.degree} | {edu.year}</Text>
+                                <View key={i} style={styles.listItem}>
+                                    <Text style={styles.itemTitle}>{edu.institution}</Text>
+                                    <Text style={styles.itemSubtitle}>{edu.degree}</Text>
                                 </View>
                             ))}
                         </View>
                     )}
-
+                    {profile.certificates?.length > 0 && (
+                        <View style={{ flex: 1 }}>
+                            <View style={styles.sectionTitleContainer}>
+                                <View style={styles.sectionTitleBar} />
+                                <Text style={styles.sectionTitle}>Certificates</Text>
+                            </View>
+                            {profile.certificates.map((cert: any, i: number) => (
+                                <View key={i} style={styles.listItem}>
+                                    <Text style={styles.itemTitle}>{cert.name}</Text>
+                                    <Text style={styles.itemSubtitle}>{cert.issuer}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    )}
                 </View>
+
             </Page>
         </Document>
     );
 
-    // Render to stream
     return await renderToStream(CVDocument);
 }

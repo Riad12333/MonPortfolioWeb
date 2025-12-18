@@ -12,7 +12,7 @@ export default function CTASection() {
         if (session) {
             router.push("/profile");
         } else {
-            router.push("/sign-in");
+            router.push("/signup");
         }
     };
 

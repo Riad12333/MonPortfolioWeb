@@ -11,7 +11,8 @@ import {
     Download, Save, Globe, User, Briefcase, GraduationCap,
     Award, FileText, Share2, Palette, Layout, Languages,
     Github, Linkedin, Twitter, Youtube, Facebook, Instagram, Twitch,
-    MessageCircle, Send, Upload, Trash2, Plus, ArrowUp, ArrowDown, GripVertical
+    MessageCircle, Send, Upload, Trash2, Plus, ArrowUp, ArrowDown, GripVertical,
+    FileDown
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -998,7 +999,11 @@ export default function ProfilePage() {
                                         { name: "Deep Purple", value: "bg-[#1e1b4b]" },
                                         { name: "Gradient Dark", value: "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" },
                                         { name: "Gradient Ocean", value: "bg-gradient-to-br from-slate-900 via-cyan-900 to-emerald-900" },
-                                        { name: "Clean White", value: "bg-white text-slate-900" } // Note: Text color handling might need more complex logic if switching light/dark completely
+                                        { name: "Premium Onyx", value: "bg-[#101010]" },
+                                        { name: "Royal Indigo", value: "bg-gradient-to-tr from-[#0f172a] via-[#1e1b4b] to-[#312e81]" },
+                                        { name: "Neon Matrix", value: "bg-[#020617] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-950/20 via-slate-950 to-slate-950" },
+                                        { name: "Cosmic Nebula", value: "bg-[#0c0a09] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/40 via-slate-950 to-slate-950" },
+                                        { name: "Clean White", value: "bg-white text-slate-900" }
                                     ].map((bgOption) => (
                                         <div
                                             key={bgOption.value}
@@ -1028,9 +1033,10 @@ export default function ProfilePage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {[
-                                        { id: 'theme-minimal', name: "Minimalist", desc: "Clean left-aligned layout with focus on content." },
-                                        { id: 'theme-modern', name: "Modern Cards", desc: "Grid-based layout with glassmorphism effects." },
-                                        { id: 'theme-classic', name: "Classic Resume", desc: "Traditional top-down resume style layout." },
+                                        { id: 'theme-minimal', name: "Minimalist", desc: "Clean, focus on typography. Perfect for writers.", accent: 'bg-slate-400' },
+                                        { id: 'theme-modern', name: "Modern Cards (Bento)", desc: "Very popular grid-based layout. Dynamic and modern.", accent: 'bg-blue-500' },
+                                        { id: 'theme-premium', name: "Premium Portfolio", desc: "Exclusive dark design with animations and glassmorphism.", accent: 'bg-emerald-500' },
+                                        { id: 'theme-classic', name: "Classic Resume", desc: "Professional high-end resume style. Perfect for jobs.", accent: 'bg-purple-500' },
                                     ].map((theme) => (
                                         <div
                                             key={theme.id}
@@ -1038,13 +1044,16 @@ export default function ProfilePage() {
                                                 ...profile,
                                                 themeSettings: { ...profile.themeSettings, themeId: theme.id }
                                             })}
-                                            className={`cursor-pointer group relative overflow-hidden rounded-xl border-2 transition-all p-6 ${profile.themeSettings.themeId === theme.id ? 'border-lime-500 bg-lime-50' : 'border-slate-200 hover:border-lime-300 bg-white'}`}
+                                            className={`cursor-pointer group relative overflow-hidden rounded-2xl border-2 transition-all p-6 ${profile.themeSettings.themeId === theme.id ? 'border-lime-500 bg-lime-50 ring-4 ring-lime-500/10' : 'border-slate-100 hover:border-lime-300 bg-white shadow-sm'}`}
                                         >
-                                            <div className="flex items-start justify-between mb-2">
-                                                <h3 className="font-bold text-slate-900 text-lg">{theme.name}</h3>
-                                                {profile.themeSettings.themeId === theme.id && <div className="w-3 h-3 rounded-full bg-lime-500"></div>}
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className={`w-10 h-10 rounded-xl ${theme.accent} flex items-center justify-center text-white shadow-lg`}>
+                                                    <Layout className="w-6 h-6" />
+                                                </div>
+                                                {profile.themeSettings.themeId === theme.id && <div className="w-6 h-6 rounded-full bg-lime-500 flex items-center justify-center text-white text-[10px] font-bold">✓</div>}
                                             </div>
-                                            <p className="text-slate-500 text-sm">{theme.desc}</p>
+                                            <h3 className="font-black text-slate-900 text-lg mb-2">{theme.name}</h3>
+                                            <p className="text-slate-500 text-xs leading-relaxed">{theme.desc}</p>
                                         </div>
                                     ))}
                                 </div>
