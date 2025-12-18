@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { Logo } from '@/components/logo';
 
 export default function AuthLayout({
     children,
@@ -29,14 +29,7 @@ export default function AuthLayout({
             {/* Logo */}
             <div className="mb-8 relative z-20">
                 <Link href="/" className="flex items-center gap-3">
-                    <div className="relative w-12 h-12">
-                        <Image
-                            src="/logo.png"
-                            alt="MonPortfolioWeb Logo"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
+                    <Logo className="w-12 h-12" />
                 </Link>
             </div>
 

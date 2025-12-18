@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { Menu, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
 import { UserMenu } from './layout/user-menu';
+import { Logo } from './logo';
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
@@ -27,14 +28,7 @@ export default function Navbar() {
         <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-slate-950/70 border-b border-slate-800/50">
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                 <Link href="/" className="hover:opacity-80 transition-opacity flex items-center gap-3">
-                    <div className="relative w-10 h-10">
-                        <Image
-                            src="/logo.png"
-                            alt="MonPortfolioWeb Logo"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
+                    <Logo className="w-10 h-10" />
                     <span className="font-bold text-xl tracking-tight text-white hidden sm:block">
                         Mon<span className="text-blue-500">Portfolio</span>Web
                     </span>

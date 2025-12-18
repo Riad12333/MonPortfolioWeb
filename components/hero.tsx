@@ -1,10 +1,33 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ExternalLink, Code2, Database, Globe } from 'lucide-react'; 3
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Linkedin, Mail, ExternalLink, Code2, Database, Globe } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
+    const { data: session } = useSession();
+    const router = useRouter();
+    const [currentImg, setCurrentImg] = useState(0);
+    const heroImages = ['/hero-1.png', '/hero-2.png', '/hero-3.png'];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImg((prev) => (prev + 1) % heroImages.length);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleStartBuilding = () => {
+        if (session) {
+            router.push('/profile');
+        } else {
+            router.push('/signup');
+        }
+    };
+
     return (
         <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden min-h-[90vh] flex items-center">
             {/* Background Gradients */}
@@ -39,10 +62,20 @@ export default function Hero() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <Button variant="gradient" size="lg" className="rounded-full">
+                        <Button
+                            variant="gradient"
+                            size="lg"
+                            className="rounded-full"
+                            onClick={handleStartBuilding}
+                        >
                             Start Building
                         </Button>
-                        <Button variant="outline" size="lg" className="rounded-full">
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="rounded-full"
+                            onClick={() => window.open('/portfolio/riad12', '_blank')}
+                        >
                             View Demo
                         </Button>
                     </div>
@@ -77,72 +110,29 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        {/* Mockup Content (The Portfolio) */}
-                        <div className="flex-1 p-8 overflow-hidden relative">
-                            {/* Background Glow inside mockup */}
-                            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-500/10 blur-[80px] rounded-full pointer-events-none" />
+                        {/* Mockup Content (The Portfolio Slideshow) */}
+                        <div className="flex-1 overflow-hidden relative bg-slate-900 flex items-start justify-center">
+                            <AnimatePresence mode="wait">
+                                <motion.img
+                                    key={currentImg}
+                                    src={heroImages[currentImg]}
+                                    alt="Portfolio Theme"
+                                    initial={{ opacity: 0, y: 20, scale: 1.05 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                                    className="w-full h-full object-cover object-top"
+                                />
+                            </AnimatePresence>
 
-                            <div className="grid md:grid-cols-[1.2fr_1.8fr] gap-8 h-full">
-                                {/* Left Column: Profile */}
-                                <div className="flex flex-col gap-6">
-                                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-tr from-slate-800 to-slate-700 p-[2px]">
-                                        <div className="w-full h-full rounded-xl bg-slate-900 flex items-center justify-center text-3xl font-bold text-slate-200">
-                                            MO
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">OULDGOUGAM Madjid</h3>
-                                        <p className="text-blue-400 font-medium mb-4">Full Stack Developer | Blockchain | IoT</p>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                                            Student at USTHB. Passionate about web development, distributed systems, and innovative technologies.
-                                        </p>
-
-                                        <div className="flex gap-3">
-                                            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-blue-500/50 transition-colors cursor-pointer">
-                                                <Github className="w-5 h-5" />
-                                            </div>
-                                            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-blue-500/50 transition-colors cursor-pointer">
-                                                <Linkedin className="w-5 h-5" />
-                                            </div>
-                                            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-blue-500/50 transition-colors cursor-pointer">
-                                                <Mail className="w-5 h-5" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Right Column: Stats/Projects */}
-                                <div className="flex flex-col gap-4">
-                                    {/* Stat Cards */}
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
-                                            <Code2 className="w-5 h-5 text-blue-400 mb-2" />
-                                            <div className="text-2xl font-bold text-white">42+</div>
-                                            <div className="text-xs text-slate-500">Deployed Projects</div>
-                                        </div>
-                                        <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
-                                            <Database className="w-5 h-5 text-violet-400 mb-2" />
-                                            <div className="text-2xl font-bold text-white">100%</div>
-                                            <div className="text-xs text-slate-500">Server Uptime</div>
-                                        </div>
-                                    </div>
-
-                                    {/* Project Card */}
-                                    <div className="flex-1 rounded-xl bg-slate-900/50 border border-slate-800 p-5 mt-2 relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 p-4 opacity-50">
-                                            <Globe className="w-12 h-12 text-slate-800" />
-                                        </div>
-                                        <h4 className="text-white font-semibold mb-2">Latest Project</h4>
-                                        <p className="text-xs text-slate-400 mb-4">SaaS platform for portfolio generation.</p>
-                                        <div className="flex gap-2 mb-4">
-                                            <span className="text-[10px] px-2 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Next.js</span>
-                                            <span className="text-[10px] px-2 py-1 rounded bg-violet-500/10 text-violet-400 border border-violet-500/20">Tailwind</span>
-                                        </div>
-                                        <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                                            <div className="w-3/4 h-full bg-gradient-to-r from-blue-500 to-violet-500" />
-                                        </div>
-                                    </div>
-                                </div>
+                            {/* Overlay markers */}
+                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                {heroImages.map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className={`h-1.5 rounded-full transition-all duration-300 ${i === currentImg ? 'w-8 bg-blue-500' : 'w-2 bg-white/20'}`}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
